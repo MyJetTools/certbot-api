@@ -1,6 +1,14 @@
 use std::process::Stdio;
 
 pub async fn add_domain(domain: String, email: String) -> Result<String, String> {
+    // If domain doesn't already start with *., prepend *. to make it a wildcard certificate
+    // e.g., "domain.com" becomes "*.domain.com"
+    let wildcard_domain = if domain.starts_with("*.") {
+        domain
+    } else {
+        format!("*.{}", domain)
+    };
+
     let mut cmd = tokio::process::Command::new("certbot");
 
     cmd.arg("certonly")
@@ -14,7 +22,7 @@ pub async fn add_domain(domain: String, email: String) -> Result<String, String>
         .arg("--agree-tos")
         .arg("--non-interactive")
         .arg("-d")
-        .arg(domain);
+        .arg(&wildcard_domain);
 
     cmd.stdout(Stdio::piped()).stderr(Stdio::piped());
 

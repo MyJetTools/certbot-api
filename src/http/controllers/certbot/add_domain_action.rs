@@ -9,7 +9,7 @@ use crate::app::AppContext;
     method: "POST",
     route: "/api/certbot/v1/add-domain",
     summary: "Add Domain Certificate",
-    description: "Add a new domain certificate using certbot with Cloudflare DNS",
+    description: "Add a new domain certificate using certbot with Cloudflare DNS. If domain is provided without wildcard (e.g., 'domain.com'), a wildcard certificate for '*.domain.com' will be issued.",
     controller: "CertBot",
     input_data: "AddDomainInputModel",
 
