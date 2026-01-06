@@ -13,3 +13,5 @@ mod get_domains_list;
 pub use get_domains_list::*;
 mod get_domains_with_expiration;
 pub use get_domains_with_expiration::*;
+mod renew_certificate;
+pub use renew_certificate::*;
