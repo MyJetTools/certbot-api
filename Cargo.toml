@@ -1,0 +1,21 @@
+[package]
+name = "certbot-api"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+my-http-server = { tag = "0.8.3", git = "https://github.com/MyJetTools/my-http-server.git", features = [
+    "static-files",
+    "macros",
+] }
+
+rust-extensions = { tag = "0.1.5", git = "https://github.com/MyJetTools/rust-extensions.git", features = [
+    "with-tokio",
+] }
+
+my-logger = { tag = "1.2.1", git = "https://github.com/MyJetTools/my-logger.git" }
+
+tokio = { version = "*", features = ["full"] }
+
+serde = { version = "*", features = ["derive"] }
+serde_json = "*"
