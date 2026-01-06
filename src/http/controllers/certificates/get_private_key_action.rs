@@ -7,7 +7,7 @@ use crate::app::AppContext;
 
 #[http_route(
     method: "GET",
-    route: "/api/certificates/v1/{domain}/private-key",
+    route: "/api/certificates/v1/private-key",
     summary: "Get Private Key",
     description: "Get the private key for a domain certificate",
     controller: "Certificates",
@@ -34,7 +34,7 @@ async fn handle_request(
     input_data: GetPrivateKeyInputModel,
     _ctx: &HttpContext,
 ) -> Result<HttpOkResult, HttpFailResult> {
-    let result = crate::scripts::get_private_key(input_data.domain).await;
+    let result = crate::scripts::get_private_key(input_data.domain.as_str()).await;
 
     match result {
         Ok(content) => HttpOutput::as_text(content).into_ok_result(true).into(),
@@ -49,6 +49,6 @@ async fn handle_request(
 
 #[derive(MyHttpInput)]
 pub struct GetPrivateKeyInputModel {
-    #[http_path(name = "domain", description = "Domain name")]
+    #[http_query(name = "domain", description = "Domain name")]
     pub domain: String,
 }

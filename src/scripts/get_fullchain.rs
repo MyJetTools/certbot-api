@@ -1,4 +1,4 @@
-pub async fn get_fullchain(domain: String) -> Result<String, String> {
+pub async fn get_fullchain(domain: &str) -> Result<String, String> {
     let file_path = format!("/etc/letsencrypt/live/{}/fullchain.pem", domain);
 
     match tokio::fs::read_to_string(&file_path).await {

@@ -1,4 +1,4 @@
-pub async fn get_private_key(domain: String) -> Result<String, String> {
+pub async fn get_private_key(domain: &str) -> Result<String, String> {
     let file_path = format!("/etc/letsencrypt/live/{}/privkey.pem", domain);
 
     match tokio::fs::read_to_string(&file_path).await {

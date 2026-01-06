@@ -7,7 +7,7 @@ use crate::app::AppContext;
 
 #[http_route(
     method: "GET",
-    route: "/api/certificates/v1/{domain}/fullchain",
+    route: "/api/certificates/v1/fullchain",
     summary: "Get Fullchain",
     description: "Get the fullchain certificate for a domain",
     controller: "Certificates",
@@ -34,7 +34,7 @@ async fn handle_request(
     input_data: GetFullchainInputModel,
     _ctx: &HttpContext,
 ) -> Result<HttpOkResult, HttpFailResult> {
-    let result = crate::scripts::get_fullchain(input_data.domain).await;
+    let result = crate::scripts::get_fullchain(input_data.domain.as_str()).await;
 
     match result {
         Ok(content) => HttpOutput::as_text(content).into_ok_result(true).into(),
@@ -49,6 +49,6 @@ async fn handle_request(
 
 #[derive(MyHttpInput)]
 pub struct GetFullchainInputModel {
-    #[http_path(name = "domain", description = "Domain name")]
+    #[http_query(name = "domain", description = "Domain name")]
     pub domain: String,
 }
