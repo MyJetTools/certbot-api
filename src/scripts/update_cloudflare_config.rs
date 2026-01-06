@@ -1,6 +1,6 @@
 pub async fn update_cloudflare_config(api_token: String) {
     let config_content = format!(
-        "# Cloudflare API token used by Certbot\ndns_cloudflare_api_token = {}",
+        "# Cloudflare API token used by Certbot\ndns_cloudflare_api_token = {}\n",
         api_token
     );
 

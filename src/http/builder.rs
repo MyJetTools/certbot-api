@@ -11,5 +11,9 @@ pub fn build_controllers(app: &Arc<AppContext>) -> ControllersMiddleware {
         crate::http::controllers::cloudflare::UpdateCloudflareConfigAction::new(app.clone()),
     ));
 
+    result.register_post_action(Arc::new(
+        crate::http::controllers::certbot::AddDomainAction::new(app.clone()),
+    ));
+
     result
 }
