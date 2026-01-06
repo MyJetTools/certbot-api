@@ -9,3 +9,7 @@ pub use get_private_key::*;
 pub use update_cloudflare_config::*;
 mod get_cert_info;
 pub use get_cert_info::*;
+mod get_domains_list;
+pub use get_domains_list::*;
+mod get_domains_with_expiration;
+pub use get_domains_with_expiration::*;

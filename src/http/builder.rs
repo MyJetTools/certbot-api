@@ -27,5 +27,13 @@ pub fn build_controllers(app: &Arc<AppContext>) -> ControllersMiddleware {
         crate::http::controllers::certificates::GetCertInfoAction::new(app.clone()),
     ));
 
+    result.register_get_action(Arc::new(
+        crate::http::controllers::certificates::GetDomainsListAction::new(app.clone()),
+    ));
+
+    result.register_get_action(Arc::new(
+        crate::http::controllers::certificates::GetDomainsWithExpirationAction::new(app.clone()),
+    ));
+
     result
 }
