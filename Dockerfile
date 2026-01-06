@@ -10,6 +10,6 @@ RUN apt-get update && \
     libc6 \
     && rm -rf /var/lib/apt/lists/*
 
-COPY /build/target/release/certbot-api /app/certbot-api
+COPY ./target/release/certbot-api /app/certbot-api
 WORKDIR /app
 ENTRYPOINT ["/app/certbot-api"]
