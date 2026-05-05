@@ -1,11 +1,18 @@
 use std::process::Stdio;
 
 pub async fn renew_certificate(domain: String) -> Result<String, String> {
+    // Normalize "*.example.com" -> "example.com": certbot stores the cert under
+    // the apex name regardless of whether the original request was wildcard.
+    let cert_name = domain
+        .strip_prefix("*.")
+        .map(|s| s.to_string())
+        .unwrap_or(domain);
+
     let mut cmd = tokio::process::Command::new("certbot");
 
     cmd.arg("renew")
         .arg("--cert-name")
-        .arg(&domain)
+        .arg(&cert_name)
         .arg("--dns-cloudflare")
         .arg("--dns-cloudflare-credentials")
         .arg("/cloudflare.ini")
