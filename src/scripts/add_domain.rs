@@ -1,13 +1,14 @@
 use std::process::Stdio;
 
 pub async fn add_domain(domain: String, email: String) -> Result<String, String> {
-    // If domain doesn't already start with *., prepend *. to make it a wildcard certificate
-    // e.g., "domain.com" becomes "*.domain.com"
-    let wildcard_domain = if domain.starts_with("*.") {
-        domain
-    } else {
-        format!("*.{}", domain)
-    };
+    // Issue a single certificate that covers both the apex and the wildcard:
+    //   "example.com"   -> SANs: example.com, *.example.com
+    //   "*.example.com" -> SANs: example.com, *.example.com
+    let apex_domain = domain
+        .strip_prefix("*.")
+        .map(|s| s.to_string())
+        .unwrap_or(domain);
+    let wildcard_domain = format!("*.{}", apex_domain);
 
     let mut cmd = tokio::process::Command::new("certbot");
 
@@ -21,6 +22,11 @@ pub async fn add_domain(domain: String, email: String) -> Result<String, String>
         .arg(&email)
         .arg("--agree-tos")
         .arg("--non-interactive")
+        .arg("--cert-name")
+        .arg(&apex_domain)
+        .arg("--expand")
+        .arg("-d")
+        .arg(&apex_domain)
         .arg("-d")
         .arg(&wildcard_domain);
 
