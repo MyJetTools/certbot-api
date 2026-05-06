@@ -1,0 +1,18 @@
+{
+  "permissions": {
+    "allow": [
+      "mcp__development-best-practices__list_resource_tools",
+      "mcp__development-best-practices__get_mcp_development_guide",
+      "mcp__development-best-practices__get_cargo_dependencies_guide",
+      "Bash(curl -s https://api.github.com/repos/my-ai-utils/mcp-server-middleware/releases/latest)",
+      "Bash(curl -s https://api.github.com/repos/my-ai-utils/my-ai-agent/releases/latest)",
+      "Bash(curl -s \"https://api.github.com/repos/my-ai-utils/mcp-server-middleware/tags\")",
+      "Bash(curl -s \"https://api.github.com/repos/my-ai-utils/mcp-server-middleware/tags?per_page=30\")",
+      "Bash(curl -s \"https://api.github.com/repos/my-ai-utils/mcp-server-middleware/branches\")",
+      "Bash(curl -s \"https://api.github.com/repos/my-ai-utils/mcp-server-middleware/commits/main\")",
+      "Bash(curl -s \"https://api.github.com/repos/MyJetTools/my-json/tags?per_page=10\")",
+      "Bash(curl -s \"https://raw.githubusercontent.com/MyJetTools/my-json/0.3.2/src/json_writer/json_object_writer.rs\")",
+      "Bash(curl -s \"https://api.github.com/repos/MyJetTools/my-json/git/refs/tags/0.3.2\")"
+    ]
+  }
+}

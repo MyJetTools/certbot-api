@@ -4,6 +4,7 @@ use app::AppContext;
 
 mod app;
 mod http;
+mod mcp;
 mod scripts;
 mod settings;
 
@@ -12,6 +13,6 @@ async fn main() {
     let app = AppContext::new().await;
     let app = Arc::new(app);
 
-    crate::http::start(&app);
+    crate::http::start(&app).await;
     app.app_states.wait_until_shutdown().await;
 }

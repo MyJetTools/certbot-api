@@ -16,7 +16,11 @@ pub fn build_controllers(app: &Arc<AppContext>) -> ControllersMiddleware {
     ));
 
     result.register_post_action(Arc::new(
-        crate::http::controllers::certbot::RenewCertificateAction::new(app.clone()),
+        crate::http::controllers::certbot::StartRenewAction::new(app.clone()),
+    ));
+
+    result.register_get_action(Arc::new(
+        crate::http::controllers::certbot::CheckRenewAction::new(app.clone()),
     ));
 
     result.register_get_action(Arc::new(
