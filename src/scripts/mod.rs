@@ -15,3 +15,7 @@ mod get_domains_with_expiration;
 pub use get_domains_with_expiration::*;
 mod renew_certificate;
 pub use renew_certificate::*;
+mod fix_cert_symlinks;
+pub use fix_cert_symlinks::*;
+mod get_letsencrypt_log;
+pub use get_letsencrypt_log::*;

@@ -1,5 +1,7 @@
 mod add_domain_tool_call;
+mod fix_cert_symlinks_tool_call;
 mod get_cert_info_tool_call;
+mod get_letsencrypt_log_tool_call;
 mod get_domains_list_tool_call;
 mod get_domains_with_expiration_tool_call;
 mod get_fullchain_tool_call;
@@ -9,7 +11,9 @@ mod renew_certificate_tool_call;
 mod update_cloudflare_config_tool_call;
 
 pub use add_domain_tool_call::*;
+pub use fix_cert_symlinks_tool_call::*;
 pub use get_cert_info_tool_call::*;
+pub use get_letsencrypt_log_tool_call::*;
 pub use get_domains_list_tool_call::*;
 pub use get_domains_with_expiration_tool_call::*;
 pub use get_fullchain_tool_call::*;

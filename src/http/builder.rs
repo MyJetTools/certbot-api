@@ -23,6 +23,14 @@ pub fn build_controllers(app: &Arc<AppContext>) -> ControllersMiddleware {
         crate::http::controllers::certbot::CheckRenewAction::new(app.clone()),
     ));
 
+    result.register_post_action(Arc::new(
+        crate::http::controllers::certbot::FixSymlinksAction::new(app.clone()),
+    ));
+
+    result.register_get_action(Arc::new(
+        crate::http::controllers::certbot::GetLogAction::new(app.clone()),
+    ));
+
     result.register_get_action(Arc::new(
         crate::http::controllers::certificates::GetPrivateKeyAction::new(app.clone()),
     ));

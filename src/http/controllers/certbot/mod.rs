@@ -1,6 +1,10 @@
 pub mod add_domain_action;
 pub mod check_renew_action;
+pub mod fix_symlinks_action;
+pub mod get_log_action;
 pub mod start_renew_action;
 pub use add_domain_action::*;
 pub use check_renew_action::*;
+pub use fix_symlinks_action::*;
+pub use get_log_action::*;
 pub use start_renew_action::*;

@@ -45,6 +45,10 @@ pub async fn start(app: &Arc<AppContext>) {
         .await;
     mcp.register_tool_call(Arc::new(GetDomainsWithExpirationHandler::new(app.clone())))
         .await;
+    mcp.register_tool_call(Arc::new(FixCertSymlinksHandler::new(app.clone())))
+        .await;
+    mcp.register_tool_call(Arc::new(GetLetsEncryptLogHandler::new(app.clone())))
+        .await;
 
     http_server.add_middleware(Arc::new(mcp));
 
