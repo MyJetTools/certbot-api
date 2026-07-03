@@ -33,12 +33,17 @@ impl AppContext {
     }
 
     pub async fn get_renew_job_status(&self, domain: &str) -> Option<CertJobStatus> {
+        let domain = crate::scripts::normalize_cert_name(domain);
         let jobs = self.renew_jobs.lock().await;
-        jobs.get(domain).cloned()
+        jobs.get(domain.as_str()).cloned()
     }
 }
 
 pub async fn start_renew_job(app: Arc<AppContext>, domain: String) -> StartRenewOutcome {
+    // Jobs are keyed by the normalized name so "*.example.com" and "example.com"
+    // refer to the same renewal.
+    let domain = crate::scripts::normalize_cert_name(&domain);
+
     let mut jobs = app.renew_jobs.lock().await;
 
     if let Some(CertJobStatus::Running) = jobs.get(&domain) {

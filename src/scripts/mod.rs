@@ -1,4 +1,6 @@
 mod add_domain;
+mod cert_name;
+pub use cert_name::*;
 mod get_fullchain;
 mod get_private_key;
 mod update_cloudflare_config;

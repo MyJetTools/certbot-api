@@ -10,7 +10,7 @@ use crate::app::{start_renew_job, AppContext, StartRenewOutcome};
     method: "POST",
     route: "/api/certbot/v1/start-renew",
     summary: "Start Certificate Renewal",
-    description: "Spawn a background certbot renewal task and return immediately. Poll /api/certbot/v1/check-renew with the same domain to read the result. Avoids client-side timeouts on slow renewals (DNS-01 propagation can take a minute or more).",
+    description: "Spawn a background certbot renewal task and return immediately. The renewed certificate always covers both the apex domain and its wildcard (example.com + *.example.com) in one cert, even if the old one was missing one of them. Poll /api/certbot/v1/check-renew with the same domain to read the result. Avoids client-side timeouts on slow renewals (DNS-01 propagation can take a minute or more).",
     controller: "CertBot",
     input_data: "StartRenewInputModel",
 

@@ -20,12 +20,7 @@ pub struct FixSymlinksResult {
 // This repairs the live dir: regular files are moved aside to a backup dir and
 // symlinks to the latest archive version are recreated.
 pub async fn fix_cert_symlinks(domain: String) -> Result<FixSymlinksResult, String> {
-    // Normalize "*.example.com" -> "example.com": certbot stores the cert under
-    // the apex name regardless of whether the original request was wildcard.
-    let cert_name = domain
-        .strip_prefix("*.")
-        .map(|s| s.to_string())
-        .unwrap_or(domain);
+    let cert_name = super::normalize_cert_name(&domain);
 
     let archive_dir = format!("/etc/letsencrypt/archive/{}", cert_name);
     let live_dir = format!("/etc/letsencrypt/live/{}", cert_name);

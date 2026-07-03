@@ -4,10 +4,7 @@ pub async fn add_domain(domain: String, email: String) -> Result<String, String>
     // Issue a single certificate that covers both the apex and the wildcard:
     //   "example.com"   -> SANs: example.com, *.example.com
     //   "*.example.com" -> SANs: example.com, *.example.com
-    let apex_domain = domain
-        .strip_prefix("*.")
-        .map(|s| s.to_string())
-        .unwrap_or(domain);
+    let apex_domain = super::normalize_cert_name(&domain);
     let wildcard_domain = format!("*.{}", apex_domain);
 
     let mut cmd = tokio::process::Command::new("certbot");

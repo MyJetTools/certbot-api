@@ -38,7 +38,7 @@ impl RenewCertificateHandler {
 impl ToolDefinition for RenewCertificateHandler {
     const FUNC_NAME: &'static str = "renew_certificate";
     const DESCRIPTION: &'static str =
-        "Start an asynchronous renewal of an existing Let's Encrypt certificate. Returns immediately so the MCP client never times out — poll get_renew_status with the same domain to read the result.";
+        "Start an asynchronous renewal of an existing Let's Encrypt certificate. The renewed certificate always covers both the apex domain and its wildcard (example.com + *.example.com) in one cert, even if the old one was missing one of them. Returns immediately so the MCP client never times out — poll get_renew_status with the same domain to read the result.";
 }
 
 #[async_trait::async_trait]
