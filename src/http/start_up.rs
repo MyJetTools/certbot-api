@@ -27,28 +27,17 @@ pub async fn start(app: &Arc<AppContext>) {
         "Certbot API — manage Let's Encrypt certificates over MCP",
     );
 
-    mcp.register_tool_call(Arc::new(AddDomainHandler::new(app.clone())))
-        .await;
-    mcp.register_tool_call(Arc::new(RenewCertificateHandler::new(app.clone())))
-        .await;
-    mcp.register_tool_call(Arc::new(GetRenewStatusHandler::new(app.clone())))
-        .await;
-    mcp.register_tool_call(Arc::new(UpdateCloudflareConfigHandler::new(app.clone())))
-        .await;
-    mcp.register_tool_call(Arc::new(GetPrivateKeyHandler::new(app.clone())))
-        .await;
-    mcp.register_tool_call(Arc::new(GetFullchainHandler::new(app.clone())))
-        .await;
-    mcp.register_tool_call(Arc::new(GetCertInfoHandler::new(app.clone())))
-        .await;
-    mcp.register_tool_call(Arc::new(GetDomainsListHandler::new(app.clone())))
-        .await;
-    mcp.register_tool_call(Arc::new(GetDomainsWithExpirationHandler::new(app.clone())))
-        .await;
-    mcp.register_tool_call(Arc::new(FixCertSymlinksHandler::new(app.clone())))
-        .await;
-    mcp.register_tool_call(Arc::new(GetLetsEncryptLogHandler::new(app.clone())))
-        .await;
+    mcp.register_tool_call(Arc::new(AddDomainHandler::new(app.clone())));
+    mcp.register_tool_call(Arc::new(RenewCertificateHandler::new(app.clone())));
+    mcp.register_tool_call(Arc::new(GetRenewStatusHandler::new(app.clone())));
+    mcp.register_tool_call(Arc::new(UpdateCloudflareConfigHandler::new(app.clone())));
+    mcp.register_tool_call(Arc::new(GetPrivateKeyHandler::new(app.clone())));
+    mcp.register_tool_call(Arc::new(GetFullchainHandler::new(app.clone())));
+    mcp.register_tool_call(Arc::new(GetCertInfoHandler::new(app.clone())));
+    mcp.register_tool_call(Arc::new(GetDomainsListHandler::new(app.clone())));
+    mcp.register_tool_call(Arc::new(GetDomainsWithExpirationHandler::new(app.clone())));
+    mcp.register_tool_call(Arc::new(FixCertSymlinksHandler::new(app.clone())));
+    mcp.register_tool_call(Arc::new(GetLetsEncryptLogHandler::new(app.clone())));
 
     http_server.add_middleware(Arc::new(mcp));
 
