@@ -4,7 +4,7 @@ version = "0.1.0"
 edition = "2021"
 
 [dependencies]
-my-http-server = { tag = "0.8.3", git = "https://github.com/MyJetTools/my-http-server.git", features = [
+my-http-server = { tag = "0.9.0", git = "https://github.com/MyJetTools/my-http-server.git", features = [
     "static-files",
     "macros",
 ] }
@@ -13,11 +13,15 @@ rust-extensions = { tag = "0.1.5", git = "https://github.com/MyJetTools/rust-ext
     "with-tokio",
 ] }
 
-my-logger = { tag = "1.2.1", git = "https://github.com/MyJetTools/my-logger.git" }
+my-logger = { tag = "1.3.0", git = "https://github.com/MyJetTools/my-logger.git" }
 
 my-tls = { tag = "0.1.5", git = "https://github.com/MyJetTools/my-tls.git" }
 
-mcp-server-middleware = { tag = "0.8.3", git = "https://github.com/my-ai-utils/mcp-server-middleware.git" }
+my-http-utils = { tag = "0.1.0", git = "https://github.com/MyJetTools/my-http-utils.git", features = [
+    "server",
+] }
+
+mcp-server-middleware = { tag = "0.9.0", git = "https://github.com/my-ai-utils/mcp-server-middleware.git" }
 
 my-ai-agent = { tag = "0.1.0", git = "https://github.com/my-ai-utils/my-ai-agent.git", features = [
     "agent",
