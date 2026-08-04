@@ -31,3 +31,5 @@ mod prepare_error;
 pub use prepare_error::*;
 mod renew_dns;
 pub use renew_dns::*;
+mod get_acme_challenge;
+pub use get_acme_challenge::*;

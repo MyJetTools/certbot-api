@@ -40,6 +40,10 @@ pub fn build_controllers(app: &Arc<AppContext>) -> ControllersMiddleware {
     ));
 
     result.register_get_action(Arc::new(
+        crate::http::controllers::http01::AcmeChallengeAction::new(app.clone()),
+    ));
+
+    result.register_get_action(Arc::new(
         crate::http::controllers::tasks::ListTasksAction::new(app.clone()),
     ));
 
