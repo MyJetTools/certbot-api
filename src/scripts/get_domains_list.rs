@@ -1,13 +1,13 @@
 pub async fn get_domains_list() -> Result<Vec<String>, String> {
     let live_dir = "/etc/letsencrypt/live";
 
-    let mut entries = tokio::fs::read_dir(live_dir).await.map_err(|e| {
-        if e.kind() == std::io::ErrorKind::NotFound {
-            format!("LetsEncrypt live directory not found: {}", live_dir)
-        } else {
-            format!("Failed to read directory {}: {}", live_dir, e)
-        }
-    })?;
+    // A host that has never issued a certificate has no live directory yet —
+    // that is an empty list, not an error.
+    let mut entries = match tokio::fs::read_dir(live_dir).await {
+        Ok(entries) => entries,
+        Err(e) if e.kind() == std::io::ErrorKind::NotFound => return Ok(Vec::new()),
+        Err(e) => return Err(format!("Failed to read directory {}: {}", live_dir, e)),
+    };
 
     let mut domains = Vec::new();
 

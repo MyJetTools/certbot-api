@@ -13,6 +13,7 @@ mod get_http_01_status_tool_call;
 mod init_http_01_tool_call;
 mod reissue_http_01_tool_call;
 mod list_tasks_tool_call;
+mod list_acme_challenges_tool_call;
 
 pub use add_domain_tool_call::*;
 pub use fix_cert_symlinks_tool_call::*;
@@ -29,3 +30,4 @@ pub use get_http_01_status_tool_call::*;
 pub use init_http_01_tool_call::*;
 pub use reissue_http_01_tool_call::*;
 pub use list_tasks_tool_call::*;
+pub use list_acme_challenges_tool_call::*;

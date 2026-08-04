@@ -33,3 +33,5 @@ mod renew_dns;
 pub use renew_dns::*;
 mod get_acme_challenge;
 pub use get_acme_challenge::*;
+mod list_acme_challenges;
+pub use list_acme_challenges::*;

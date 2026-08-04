@@ -42,6 +42,7 @@ pub async fn start(app: &Arc<AppContext>) {
     mcp.register_tool_call(Arc::new(ReissueHttp01Handler::new(app.clone())));
     mcp.register_tool_call(Arc::new(GetHttp01StatusHandler::new(app.clone())));
     mcp.register_tool_call(Arc::new(ListTasksHandler::new(app.clone())));
+    mcp.register_tool_call(Arc::new(ListAcmeChallengesHandler::new(app.clone())));
 
     http_server.add_middleware(Arc::new(mcp));
 

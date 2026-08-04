@@ -1,9 +1,11 @@
 pub mod acme_challenge_action;
 pub mod init_action;
+pub mod list_challenges_action;
 pub mod reissue_action;
 pub mod status_action;
 pub use acme_challenge_action::*;
 pub use init_action::*;
+pub use list_challenges_action::*;
 pub use reissue_action::*;
 pub use status_action::*;
 
