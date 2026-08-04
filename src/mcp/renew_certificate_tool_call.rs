@@ -4,7 +4,7 @@ use mcp_server_middleware::*;
 
 use serde::*;
 
-use crate::app::{start_renew_job, AppContext, StartRenewOutcome};
+use crate::app::{start_renew_dns_task, AppContext, StartTaskOutcome};
 
 #[derive(ApplyJsonSchema, Debug, Serialize, Deserialize)]
 pub struct RenewCertificateInputData {
@@ -15,12 +15,15 @@ pub struct RenewCertificateInputData {
 #[derive(ApplyJsonSchema, Debug, Serialize, Deserialize)]
 pub struct RenewCertificateResponse {
     #[property(
-        description = "Job state right after the call: 'started' if a renewal task was spawned, 'already_running' if a previous task is still in flight"
+        description = "Task state right after the call: 'started' if a task was spawned, 'already_running' if a previous task is still in flight"
     )]
     pub status: String,
 
+    #[property(description = "Id of the task — pass it to list_tasks / poll get_renew_status to track it.")]
+    pub task_id: String,
+
     #[property(
-        description = "Human-readable note. Poll get_renew_status with the same domain to learn when the job finishes."
+        description = "Human-readable note. Poll get_renew_status with the same domain to learn when the task finishes."
     )]
     pub message: String,
 }
@@ -38,7 +41,7 @@ impl RenewCertificateHandler {
 impl ToolDefinition for RenewCertificateHandler {
     const FUNC_NAME: &'static str = "renew_certificate";
     const DESCRIPTION: &'static str =
-        "Start an asynchronous renewal of an existing Let's Encrypt certificate. The renewed certificate always covers both the apex domain and its wildcard (example.com + *.example.com) in one cert, even if the old one was missing one of them. Returns immediately so the MCP client never times out — poll get_renew_status with the same domain to read the result.";
+        "Start an asynchronous DNS-01 renewal of an existing Let's Encrypt certificate. The renewed certificate always covers both the apex domain and its wildcard (example.com + *.example.com) in one cert, even if the old one was missing one of them. Refuses a certificate that was issued via HTTP-01 (webroot) — use reissue_http_01 for those. Returns a task_id immediately so the MCP client never times out — poll get_renew_status with the same domain, or list_tasks, to read the result.";
 }
 
 #[async_trait::async_trait]
@@ -47,25 +50,32 @@ impl McpToolCall<RenewCertificateInputData, RenewCertificateResponse> for RenewC
         &self,
         model: RenewCertificateInputData,
     ) -> Result<RenewCertificateResponse, String> {
-        let outcome = start_renew_job(self.app.clone(), model.domain.clone()).await;
+        let started = start_renew_dns_task(self.app.clone(), model.domain)
+            .await
+            .map_err(|e| e.to_string())?;
 
-        let response = match outcome {
-            StartRenewOutcome::Started => RenewCertificateResponse {
-                status: "started".to_string(),
-                message: format!(
+        let cert_name = started.task.cert_name.clone();
+        let (status, message) = match started.outcome {
+            StartTaskOutcome::Started => (
+                "started",
+                format!(
                     "Renewal for '{}' started. Poll get_renew_status to read the result.",
-                    model.domain
+                    cert_name
                 ),
-            },
-            StartRenewOutcome::AlreadyRunning => RenewCertificateResponse {
-                status: "already_running".to_string(),
-                message: format!(
+            ),
+            StartTaskOutcome::AlreadyRunning => (
+                "already_running",
+                format!(
                     "Renewal for '{}' is already in progress. Poll get_renew_status to read the result.",
-                    model.domain
+                    cert_name
                 ),
-            },
+            ),
         };
 
-        Ok(response)
+        Ok(RenewCertificateResponse {
+            status: status.to_string(),
+            task_id: started.task.id.clone(),
+            message,
+        })
     }
 }

@@ -9,6 +9,10 @@ mod get_private_key_tool_call;
 mod get_renew_status_tool_call;
 mod renew_certificate_tool_call;
 mod update_cloudflare_config_tool_call;
+mod get_http_01_status_tool_call;
+mod init_http_01_tool_call;
+mod reissue_http_01_tool_call;
+mod list_tasks_tool_call;
 
 pub use add_domain_tool_call::*;
 pub use fix_cert_symlinks_tool_call::*;
@@ -21,3 +25,7 @@ pub use get_private_key_tool_call::*;
 pub use get_renew_status_tool_call::*;
 pub use renew_certificate_tool_call::*;
 pub use update_cloudflare_config_tool_call::*;
+pub use get_http_01_status_tool_call::*;
+pub use init_http_01_tool_call::*;
+pub use reissue_http_01_tool_call::*;
+pub use list_tasks_tool_call::*;

@@ -27,6 +27,22 @@ pub fn build_controllers(app: &Arc<AppContext>) -> ControllersMiddleware {
         crate::http::controllers::certbot::FixSymlinksAction::new(app.clone()),
     ));
 
+    result.register_post_action(Arc::new(
+        crate::http::controllers::http01::InitHttp01Action::new(app.clone()),
+    ));
+
+    result.register_post_action(Arc::new(
+        crate::http::controllers::http01::ReissueHttp01Action::new(app.clone()),
+    ));
+
+    result.register_get_action(Arc::new(
+        crate::http::controllers::http01::Http01StatusAction::new(app.clone()),
+    ));
+
+    result.register_get_action(Arc::new(
+        crate::http::controllers::tasks::ListTasksAction::new(app.clone()),
+    ));
+
     result.register_get_action(Arc::new(
         crate::http::controllers::certbot::GetLogAction::new(app.clone()),
     ));
