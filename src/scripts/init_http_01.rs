@@ -93,6 +93,14 @@ pub async fn run_init_http_01(prepared: PreparedHttp01Issue) -> Result<String, S
         webroot,
     } = prepared;
 
+    // certbot's --webroot refuses to run if the webroot does not already exist
+    // ("<webroot> does not exist or is not a directory"). It only creates the
+    // `.well-known/acme-challenge` part itself, so make sure the base is there —
+    // this is also the directory our challenge-serving endpoint reads from.
+    tokio::fs::create_dir_all(&webroot)
+        .await
+        .map_err(|e| format!("Failed to create webroot {}: {}", webroot, e))?;
+
     let mut cmd = tokio::process::Command::new("certbot");
 
     cmd.arg("certonly")
